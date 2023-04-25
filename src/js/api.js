@@ -11,19 +11,19 @@ const options = {
 };
 
 
-async getImages(searchQuery,page) {
-  try{
-     const { data } = await axios.get(
-    `${URL}/?key=${API_KEY}&q=${searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${page}`
-  );
+// async getImages(searchQuery,page) {
+//   try{
+//      const { data } = await axios.get(
+//     `${URL}/?key=${API_KEY}&q=${searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${page}`
+//   );
 
-  // this.incrementPage();
-  return data;
-  }catch (error) {
-    console.error(error);
-  }
+//   // this.incrementPage();
+//   return data;
+//   }catch (error) {
+//     console.error(error);
+//   }
  
-}
+// }
 
 // incrementPage() {
 //   this.page += 1;

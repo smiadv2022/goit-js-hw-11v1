@@ -9,9 +9,13 @@ const refs = {
   gallery: document.querySelector('.gallery'),
 };
 
-const API_KEY = '35413262-7ae9db1d2d6405a91836db282';
+refs.buttonSearch.addEventListener('submit', onSearch);
+
+const API_KEY = '35628510-01ea92234f245f2047fa1b595З';
+// const API_KEY = '35413262-7ae9db1d2d6405a91836db282';
+// 35628510-01ea92234f245f2047fa1b595З
 const URL = 'https://pixabay.com/api';
-const searchQuery ="cat";
+// const searchQuery ="cat";
 const page =1;
 const options = {
   headers: {
@@ -20,30 +24,28 @@ const options = {
 };
 
 
-async function getImages(searchQuery,page) {
-  try{
-     const {data}  = await axios.get(
-    `${URL}/?key=${API_KEY}&q=${searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${page}`
-  );
+// async function getImages(search,page) {
+//   try{
+//      const {data}  = await axios.get(
+//     `${URL}/?key=${API_KEY}&q=${search}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${page}`
+//   );
 
-  // this.incrementPage();
-  console.log (data);
-  return data;
+//   // this.incrementPage();
+//   console.log ("data",data);
+//   return data;
 
-  }catch (error) {
-    console.error(error);
-  }
- 
-}
-getImages(searchQuery,page);
-// incrementPage() {
-//   this.page += 1;
-// }
-// async function getUser() {
-//   try {
-//     const response = await axios.get('/user?ID=12345');
-//     console.log(response);
-//   } catch (error) {
+//   }catch (error) {
 //     console.error(error);
 //   }
+ 
 // }
+
+function onSearch(event) {
+  event.preventDefault();
+
+  const newSearchQuery = event.currentTarget.elements.searchQuery.value.trim();
+
+  console.log ("txt",  newSearchQuery );
+
+}
+

@@ -1,2 +1,0 @@
-({buttonSearch:document.querySelector(".search"),searchIcon:document.querySelector(".icon-search"),spinnerIcon:document.querySelector(".icon-spinner"),searchForm:document.querySelector(".search-form"),gallery:document.querySelector(".gallery")}).buttonSearch.addEventListener("submit",(function(e){e.preventDefault();const r=e.currentTarget.elements.searchQuery.value.trim();console.log("txt",r)}));
-//# sourceMappingURL=index.86a982eb.js.map

@@ -13,6 +13,7 @@ const refs = {
 };
 
 refs.searchForm.addEventListener('submit', onSearch);
+refs.gallery.addEventListener('click', onImgFocus);
 
 const API_KEY = '35628510-01ea92234f245f2047fa1b595';
                  
@@ -64,6 +65,7 @@ function onSearch(event) {
     .catch(onError)
     .finally(() => form.reset());
   console.log('search', dataSearch);
+  
 }
 
 function onError(err) {
@@ -78,6 +80,7 @@ function createMarkup({ largeImageURL, tags, webformatURL, likes, views, comment
     <a href='${largeImageURL}' alt='${tags}' class='photo__link'>
      <img src='${webformatURL}' alt='${tags}' loading='lazy' class='photo__image' />
     </a>
+    
         <div class='info overlay'>
       <p class='info-item'>
         <b>Likes</b>${likes}
@@ -96,4 +99,23 @@ function createMarkup({ largeImageURL, tags, webformatURL, likes, views, comment
 }
 function  updateGallary (markup) {
   refs.gallery.innerHTML = markup;
+}
+const gallery = new SimpleLightbox('.gallery a');
+
+refs.gallery.addEventListener('click', onImgFocus);
+
+function onImgFocus(event) {
+  event.preventDefault();
+
+  let gallery = new SimpleLightbox('.gallery a',{captionDelay:250});
+  gallery.on('show.simplelightbox');
+
+  if (event.target.nodeName !== 'IMG') {
+    return;
+  }
+}
+function totalSearchImages() {
+  getImages().then(({ totalHits }) => {
+    return Notify.success(`Hooray! We found ${totalHits} images.`);
+  });
 }

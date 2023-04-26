@@ -151,8 +151,8 @@ body {
    height: 20%;
    background-color: #3f51b59a;
 
-   transform: translateY(100%);
-   transition: transform 250ms ease;
+    transform: translateY(100%);
+   /* transition: transform 250ms ease;  */
  }
 
  .photo__card:hover .overlay {

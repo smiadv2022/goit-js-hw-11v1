@@ -57,7 +57,9 @@ function onSearch(event) {
         throw new Error('no data');
       }
 
-      hits.reduce((markup, hit)=> createMarkup(hit),"")
+      const markup = hits.reduce((markup, hit)=> markup+createMarkup(hit),"");
+     updateGallary(markup);
+      console.log("mark", markup)
     })
     .catch(onError)
     .finally(() => form.reset());
@@ -67,6 +69,31 @@ function onSearch(event) {
 function onError(err) {
   console.log(err);
 }
-function createMarkup(hit){
+function createMarkup1(hit){
   console.log(hit);
+}
+function createMarkup({ largeImageURL, tags, webformatURL, likes, views, comments, downloads }) {
+  return `
+   <div class='photo__card'>
+    <a href='${largeImageURL}' alt='${tags}' class='photo__link'>
+     <img src='${webformatURL}' alt='${tags}' loading='lazy' class='photo__image' />
+    </a>
+        <div class='info overlay'>
+      <p class='info-item'>
+        <b>Likes</b>${likes}
+      </p>
+      <p class='info-item'>
+        <b>Views</b>${views}
+      </p>
+      <p class='info-item'>
+        <b>Comments</b>${comments}
+      </p>
+      <p class='info-item'>
+        <b>Downloads</b>${downloads}
+      </p>
+    </div>
+  </div>`;
+}
+function  updateGallary (markup) {
+  refs.gallery.innerHTML = markup;
 }

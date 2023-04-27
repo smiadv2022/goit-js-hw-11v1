@@ -17,17 +17,15 @@ console.log (loadMoreBtn.button.disabled);
 
 const refs = {
   buttonSearch: document.querySelector('.search'),
-  searchIcon: document.querySelector('.icon-search'),
-  spinnerIcon: document.querySelector('.icon-spinner'),
+
   searchForm: document.querySelector('.search-form'),
   gallery: document.querySelector('.gallery'),
-  buttonLoadMore: document.querySelector('.load-more'),
+
 };
 loadMoreBtn.button.addEventListener("click",fetchImages);
 refs.searchForm.addEventListener('submit', onSearch);
 refs.gallery.addEventListener('click', onImgFocus);
-// refs.buttonLoadMore.addEventListener('click', onLoadMore);
-// hideLoadMore();
+
 const API_KEY = '35628510-01ea92234f245f2047fa1b595';
 
 const URL = 'https://pixabay.com/api';
@@ -39,19 +37,7 @@ const options = {
   },
 };
 
-// async function getImages1(search, page) {
-//   try {
-//     const { data } = await axios.get(
-//       `${URL}/?key=${API_KEY}&q=${search}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${page}`
-//     );
 
-//     // this.incrementPage();
-//     console.log('data', data);
-//     return data;
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
 
 function onSearch(event) {
   event.preventDefault();
@@ -61,26 +47,7 @@ loadMoreBtn.show();
   newApiService.query = newSearchQuery;
 
   console.log('txt', page, newSearchQuery);
-  // const dataSearch = newApiService.getImages()
-  //   .then(({ hits, totalHits }) => {
-  //     console.log(hits, totalHits);
-  //     console.log(hits.length);
-  //     if (hits.length === 0) {
-  //       throw new Error('no data');
-  //       Notiflix.Notify.info(
-  //         'Sorry, there are no images matching your search query. Please try again.'
-  //       );
-  //       updateGallary("");
-  //     }
-  //     Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
-  //     const markup = hits.reduce(
-  //       (markup, hit) => markup + createMarkup(hit),
-  //       ''
-  //     );
-  //     updateGallary(markup);
-  //     // showLoadMore();
-  //     // console.log('mark', markup);
-  //   })
+  
   newApiService.resetPage();
   clearGallary();
  fetchImages()
@@ -90,8 +57,10 @@ loadMoreBtn.show();
 
 function onError(err) {
   console.log(err);
-  // updateGallary("<p> Sorry, there are no images </p>");
-  Notiflix.Notify.info(
+  clearGallary();
+  updateGallary("<p> Sorry, there are no images </p>");
+  loadMoreBtn.hide();
+  Notiflix.Notify.failure(
     'Sorry, there are no images matching your search query. Please try again.'
   );
 }
@@ -148,27 +117,12 @@ function onImgFocus(event) {
     return;
   }
 }
-// function totalSearchImages() {
-//   getImages().then(({ totalHits }) => {
-//     return Notify.success(`Hooray! We found ${totalHits} images.`);
-//   });
-// }
-// function hideLoadMore() {
-//   refs.buttonLoadMore.classList.add('hidden');
-// }
 
-// function showLoadMore() {
-//   refs.buttonLoadMore.classList.remove('hidden');
-// }
-// function onLoadMore (page) {
-//   return page+=1;
-
-// }
 function fetchImages(){
   loadMoreBtn.disable();
   return getImagesMarkup().then((markup)=>{updateGallary(markup);
     loadMoreBtn.enable();
-  })
+  }).catch(onError);
  
 }
 function getImagesMarkup (){
@@ -177,7 +131,7 @@ function getImagesMarkup (){
       
       if (hits.length === 0) {
         throw new Error('no data');
-        Notiflix.Notify.info(
+        Notiflix.Notify.warning(
           'Sorry, there are no images matching your search query. Please try again.'
         );
         updateGallary("");
@@ -187,9 +141,7 @@ function getImagesMarkup (){
         (markup, hit) => markup + createMarkup(hit),
         ''
       );
-      // updateGallary(markup);
-      // showLoadMore();
-      // console.log('mark', markup);
-    });
+    
+    })
  
 }

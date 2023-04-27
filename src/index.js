@@ -81,6 +81,8 @@ loadMoreBtn.show();
   //     // showLoadMore();
   //     // console.log('mark', markup);
   //   })
+  newApiService.resetPage();
+  clearGallary();
  fetchImages()
     .finally(() => form.reset());
   // console.log('search', dataSearch);
@@ -126,7 +128,11 @@ function createMarkup({
   </div>`;
 }
 function updateGallary(markup) {
-  refs.gallery.innerHTML = markup;
+  // refs.gallery.innerHTML = markup;
+  refs.gallery.insertAdjacentHTML('beforeend', markup);
+}
+function clearGallary(){
+    refs.gallery.innerHTML = "";
 }
 const gallery = new SimpleLightbox('.gallery a');
 
@@ -159,7 +165,10 @@ function onImgFocus(event) {
 
 // }
 function fetchImages(){
-  return getImagesMarkup().then((markup)=>{updateGallary(markup);})
+  loadMoreBtn.disable();
+  return getImagesMarkup().then((markup)=>{updateGallary(markup);
+    loadMoreBtn.enable();
+  })
  
 }
 function getImagesMarkup (){

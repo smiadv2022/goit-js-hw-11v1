@@ -29,7 +29,7 @@ refs.gallery.addEventListener('click', onImgFocus);
 const API_KEY = '35628510-01ea92234f245f2047fa1b595';
 
 const URL = 'https://pixabay.com/api';
-
+const currentHit =0;
 const page = 1;
 const options = {
   headers: {
@@ -45,10 +45,11 @@ loadMoreBtn.show();
   const form = event.currentTarget;
   const newSearchQuery = event.currentTarget.elements.searchQuery.value.trim();
   newApiService.query = newSearchQuery;
-
+  newApiService.blok = 0;
   console.log('txt', page, newSearchQuery);
   
   newApiService.resetPage();
+  // newApiService.resetBlok();
   clearGallary();
  fetchImages()
     .finally(() => form.reset());
@@ -127,21 +128,38 @@ function fetchImages(){
 }
 function getImagesMarkup (){
   return newApiService.getImages()
-    .then(({ hits, totalHits }) => {
+    .then(({ hits, totalHits, total}) => {
       
       if (hits.length === 0) {
         throw new Error('no data');
-        Notiflix.Notify.warning(
-          'Sorry, there are no images matching your search query. Please try again.'
-        );
+        // Notiflix.Notify.warning(
+        //   'Sorry, there are no images matching your search query. Please try again.'
+        // );
         updateGallary("");
       }
-      Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
+      // currentHit=Number(hits.length);
+      newApiService.blok=newApiService.blok+hits.length;
+      console.log("bbb",newApiService.blok);
+      if (newApiService.blok<total){
+        Notiflix.Notify.success(`Hooray! We found ${totalHits} images. Opened: ${newApiService.blok }`);
+       
+      } else  Notiflix.Notify.warning(`We're sorry, but you've reached the end of search results.`);
       return  hits.reduce(
         (markup, hit) => markup + createMarkup(hit),
         ''
       );
-    
-    })
+      // newApiService.blok=40;
+      // console.log("bbb",newApiService.blok)
+    }
+    )
  
 }
+// function handleScroll(){
+//   const {scrollTop, scrollHeight, clientHeight} =document.documentElement;
+//   if (scrollHeight-clientHeight<=scrollTop+5){
+//     fetchImages();
+//     console.log("11111111top:",scrollTop, " height:", scrollHeight, " cl:",clientHeight,"--",scrollHeight+scrollTop );
+//   }
+//   console.log("top:",scrollTop, " height:", scrollHeight, " cl:",clientHeight,"-++",scrollHeight-clientHeight,);
+// }
+// window.addEventListener("scroll", handleScroll);

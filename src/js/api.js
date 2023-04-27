@@ -3,7 +3,7 @@ import axios from 'axios';
 const API_KEY = '35628510-01ea92234f245f2047fa1b595';
 const URL = 'https://pixabay.com/api';
 const searchQuery ="cat";
-const page =1;
+const page =0;
 const options = {
   headers: {
     Authorization: API_KEY,
@@ -15,6 +15,7 @@ export default class NewApiService {
   constructor() {
     this.query = '';
     this.page = 1;
+    this.blok =0;
   }
   async getImages() {
     try {
@@ -23,6 +24,7 @@ export default class NewApiService {
       );
 
       this.incrementPage();
+      // this.incrementBlok();
       console.log('data', data);
       return data;
     } catch (error) {
@@ -35,6 +37,12 @@ export default class NewApiService {
   incrementPage() {
        this.page += 1;
   }
+  incrementBlok() {
+    this.blok += 40;
+}
+resetBlok(){
+  this.page=0;
+}
 }
 
 

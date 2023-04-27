@@ -151,7 +151,7 @@ body {
    height: 20%;
    background-color: #3f51b59a;
 
-    transform: translateY(100%);
+    /* transform: translateY(100%); */
    /* transition: transform 250ms ease;  */
  }
 
